@@ -13,7 +13,9 @@
     <a href="{{ url('/') }}" class="nav-item highlight">RotationIQ</a>
     <div class="nav-item"><a href="{{ route('defence.index') }}">defence</a></div>
     <div class="nav-item"><a href="{{ route('attack.index') }}">attack</a></div>
+    <a href="{{ route('attack.create') }}" class="nav-item highlight">MAKE NEW ROTATION</a>
 </nav>
+
 
 
 </body>
