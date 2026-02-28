@@ -1,6 +1,4 @@
-
-
-    const players = document.querySelectorAll('.player');
+const players = document.querySelectorAll('.player');
 const court = document.getElementById('court');
 
 players.forEach(player => {
@@ -49,34 +47,35 @@ function getPlayers() {
     return data;
 }
 
+// check rotation
 
 function checkRotationWithVisuals() {
     const players = getPlayers();
     const svg = document.getElementById("lines");
-    svg.innerHTML = ""; // clear old lines
+    svg.innerHTML = "";
 
     let errors = [];
 
-    // ❌ Rule: P1 behind P2
+    
     if (players[1].top < players[2].top) {
         errors.push("Player 1 is in front of Player 2");
 
         drawHorizontalFaultLine(players[2], "front");
     }
 
-    // ❌ Rule: P6 behind P3
+    
     if (players[6].top < players[3].top) {
         errors.push("Player 6 is in front of Player 3");
         drawHorizontalFaultLine(players[3], "front");
     }
 
-    // ❌ Rule: P5 behind P4
+    
     if (players[5].top < players[4].top) {
         errors.push("Player 5 is in front of Player 4");
         drawHorizontalFaultLine(players[4], "front");
     }
 
-    // LEFT / RIGHT checks
+   
     if (players[6].left > players[1].left) {
         errors.push("Player 6 is right of Player 1");
         drawVerticalFaultLine(players[1], "right");
@@ -107,7 +106,7 @@ function drawHorizontalFaultLine(player, side) {
 
     svg.appendChild(line);
 }
-
+// lines / rotation error lines
 function drawVerticalFaultLine(player, side) {
     const svg = document.getElementById("lines");
     const x = side === "right"
@@ -141,21 +140,79 @@ function getCenter(player) {
     };
 }
 
+// save rotation
 
-/* rotate */
-
-// Temporary save + redirect back to welcome page
 function saveRotation() {
-    const typeSelect = document.getElementById('rotationType');
-    const nameInput = document.getElementById('rotation-name');
 
-    const type = typeSelect ? typeSelect.value : '';
-    const name = nameInput ? nameInput.value : '';
+    const name = document.getElementById('rotation-name').value;
+    const type = document.getElementById('rotationType').value;
 
-    // You can replace this with a real POST to the server later
-    alert('Rotation "' + (name || 'unnamed') + '" (' + (type || 'no type') + ') saved.');    // Go back to the welcome page
-    window.location.href = '/';
+    if (!name) {
+        alert("Please enter rotation name");
+        return;
+    }
+
+    const players = [];
+
+    document.querySelectorAll('.player').forEach(player => {
+
+        players.push({
+            role: player.dataset.role,
+            pos: player.dataset.pos,
+            top: parseFloat(player.style.top),
+            left: parseFloat(player.style.left)
+        });
+
+    });
+
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+
+    const url = type === "attack"
+        ? "/attack-rotations"
+        : "/defence-rotations";
+
+    fetch(url, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": token
+        },
+
+        body: JSON.stringify({
+            name: name,
+            players: players
+        })
+
+    })
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error("Server error");
+        }
+
+        return response.json();
+    })
+    .then(data => {
+
+        alert("Rotation saved successfully");
+
+        if (type === "attack") {
+            window.location.href = "/attack";
+        } else {
+            window.location.href = "/defence";
+        }
+
+    })
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Failed to save rotation");
+    });
 }
+
 
 const zoneCenters = {
     1: { top: 278, left: 395 },
@@ -165,7 +222,7 @@ const zoneCenters = {
     5: { top: 278, left: 61  },
     6: { top: 278, left: 228 }
 };
-
+// rotation
 function rotateClockwise() {
 
     const rotationMap = {
@@ -195,3 +252,66 @@ function rotateClockwise() {
     document.getElementById("lines").innerHTML = "";
 }
 
+// Libero swithc
+function handleLiberoSub() {
+    const players = document.querySelectorAll('.player');
+    
+    players.forEach(player => {
+        const pos = parseInt(player.dataset.pos);
+        const role = player.dataset.role;
+        
+
+        if (role === 'MB' && (pos === 5 || pos === 6 || pos === 1)) {
+            player.dataset.role = 'L';
+            player.textContent = 'L';
+        } 
+ 
+        else if (role === 'L' && (pos === 4 || pos === 3 || pos === 2)) {
+            player.dataset.role = 'MB';
+            player.textContent = 'MB';
+        }
+    });
+}
+
+// update rotation 
+function updateRotation(id)
+{
+    const name = document.getElementById('rotation-name').value;
+
+    const players = [];
+
+    document.querySelectorAll('.player').forEach(player => {
+
+        players.push({
+            role: player.dataset.role,
+            pos: player.dataset.pos,
+            top: parseFloat(player.style.top),
+            left: parseFloat(player.style.left)
+        });
+
+    });
+
+    fetch(`/defence/${id}`, {
+
+        method: 'PUT',
+
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+
+        body: JSON.stringify({
+            name: name,
+            players: players
+        })
+
+    })
+    .then(res => res.json())
+    .then(() => {
+
+        alert('Rotation updated');
+
+        window.location.href = '/defence';
+
+    });
+}

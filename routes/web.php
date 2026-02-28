@@ -1,39 +1,34 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DefenceController;
 use App\Http\Controllers\AttackController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-// defence
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('/defence', [DefenceController::class, 'index'])
-    ->name('defence.index');
+// Defence Rotations Routes
+Route::resource('defence', DefenceController::class);
 
-Route::get('/defence/create', [DefenceController::class, 'create'])
-    ->name('defence.create');
+// Attack Rotations Routes
+Route::resource('attack', AttackController::class);
 
-Route::get('/defence/show', [DefenceController::class, 'show'])
-    ->name('defence.show');
+// API Routes for AJAX requests
+Route::post('/defence-rotations', [DefenceController::class, 'store']);
+Route::patch('/defence-rotations/{id}', [DefenceController::class, 'update']);
+Route::post('/attack-rotations', [AttackController::class, 'store']);
+Route::patch('/attack-rotations/{id}', [AttackController::class, 'update']);
 
-Route::get('/defence/edit', [DefenceController::class, 'edit'])
-    ->name('defence.edit');
-
-// attack
-
-Route::get('/attack', [AttackController::class, 'index'])
-    ->name('attack.index');
-
-Route::get('/attack/create', [AttackController::class, 'create'])
-    ->name('attack.create');
-
-Route::get('/attack/show', [AttackController::class, 'show'])
-    ->name('attack.show');
-
-Route::get('/attack/edit', [AttackController::class, 'edit'])
-    ->name('attack.edit');
+require __DIR__.'/auth.php';
