@@ -25,7 +25,7 @@ Route::resource('defence', DefenceController::class);
 // Attack Rotations Routes
 Route::resource('attack', AttackController::class);
 
-// API Routes for AJAX requests
+
 Route::post('/defence-rotations', [DefenceController::class, 'store']);
 Route::patch('/defence-rotations/{id}', [DefenceController::class, 'update']);
 Route::post('/attack-rotations', [AttackController::class, 'store']);

@@ -8,7 +8,6 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Court Visualization -->
                 <div class="lg:col-span-2 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 flex justify-center">
                         <link rel="stylesheet" href="{{ asset('style.css') }}">
@@ -36,19 +35,13 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Controls Panel -->
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <h3 class="font-semibold text-lg mb-4">{{ __('Rotation Settings') }}</h3>
-                        
-                        <!-- Rotation Name -->
                         <div class="mb-4">
                             <label for="rotation-name" class="block text-sm font-medium mb-2">{{ __('Rotation Name') }}</label>
                             <input type="text" id="rotation-name" placeholder="Enter rotation name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
-
-                        <!-- Rotation Type -->
                         <div class="mb-6">
                             <label for="rotationType" class="block text-sm font-medium mb-2">{{ __('Rotation Type') }}</label>
                             <select id="rotationType" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -56,8 +49,6 @@
                                 <option value="defence">Defence Rotation</option>
                             </select>
                         </div>
-
-                        <!-- Action Buttons -->
                         <div class="space-y-2">
                             <button onclick="checkRotationWithVisuals()" class="w-full px-4 py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition">
                                 {{ __('Check Rotation') }}
@@ -72,7 +63,6 @@
                                 {{ __('Cancel') }}
                             </a>
                         </div>
-
                         <div id="errors" class="mt-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hidden">
                             <ul id="error-list" class="list-disc list-inside"></ul>
                         </div>
@@ -81,7 +71,6 @@
             </div>
         </div>
     </div>
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('script.js') }}"></script>
 </x-app-layout>

@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 
 class AttackController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-       $rotations = AttackRotation::latest()->get();
+       $rotations = AttackRotation::where('user_id', auth()->id())->latest()->get();
 
         return view('attack.index', compact('rotations'));
     }
@@ -21,7 +26,7 @@ class AttackController extends Controller
 
     public function show($id)
     {
-        $rotation = AttackRotation::find($id);
+        $rotation = AttackRotation::where('id', $id)->where('user_id', auth()->id())->first();
         
         if (!$rotation) {
             return redirect()->route('attack.index')->with('error', 'Rotation not found.');
@@ -32,7 +37,7 @@ class AttackController extends Controller
 
     public function edit($id)
     {
-        $rotation = AttackRotation::find($id);
+        $rotation = AttackRotation::where('id', $id)->where('user_id', auth()->id())->first();
         
         if (!$rotation) {
             return redirect()->route('attack.index')->with('error', 'Rotation not found.');
@@ -43,7 +48,7 @@ class AttackController extends Controller
 
      public function update(Request $request, $id)
     {
-        $rotation = AttackRotation::findOrFail($id);
+        $rotation = AttackRotation::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
         $rotation->update([
             'name' => $request->name,
@@ -57,11 +62,19 @@ class AttackController extends Controller
     {
         AttackRotation::create([
             'name' => $request->name,
-            'players' => json_encode($request->players)
+            'players' => json_encode($request->players),
+            'user_id' => auth()->id()
         ]);
 
         return response()->json(['success' => true]);
     }
 
-   
+    public function destroy($id)
+    {
+        $rotation = AttackRotation::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+        $rotation->delete();
+
+        return redirect()->route('attack.index')->with('success', 'Rotation deleted successfully.');
+    }
 }
+
