@@ -291,9 +291,9 @@ function updateRotation(id)
 
     });
 
-    fetch(`/defence/${id}`, {
+    fetch(`/attack/${id}`, {
 
-        method: 'PUT',
+        method: 'PATCH',
 
         headers: {
             'Content-Type': 'application/json',
@@ -311,7 +311,200 @@ function updateRotation(id)
 
         alert('Rotation updated');
 
-        window.location.href = '/defence';
+        window.location.href = '/attack';
 
     });
 }
+
+// ============================================
+// Moving Players Animator - runs when page loaded
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're on the moving players page
+    const animateBtn = document.getElementById('animateBtn');
+    if (!animateBtn) return;
+
+    const court = document.getElementById('court');
+    const players = document.querySelectorAll('#court .player');
+    const resetBtn = document.getElementById('resetBtn');
+    const clearDestinationsBtn = document.getElementById('clearDestinationsBtn');
+    const rotateBtn = document.getElementById('rotateBtn');
+    const selectedInfo = document.getElementById('selectedInfo');
+    const destinationCount = document.getElementById('destinationCount');
+
+    let selectedPlayer = null;
+    let totalDestinations = 0;
+
+    // Initialize each player
+    players.forEach((player, index) => {
+        player.destination = null;
+        player.originalPosition = {
+            left: player.style.left,
+            top: player.style.top
+        };
+        player.playerIndex = index;
+
+        // Player selection
+        player.addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            if (selectedPlayer) {
+                selectedPlayer.classList.remove('selected');
+            }
+
+            selectedPlayer = player;
+            player.classList.add('selected');
+
+            const role = player.getAttribute('data-role') || 'Player ' + (index + 1);
+            selectedInfo.textContent = role;
+        });
+    });
+
+    // Destination selection (click on court)
+    court.addEventListener('click', function(event) {
+        if (!selectedPlayer) {
+            alert('Please select a player first!');
+            return;
+        }
+
+        if (event.target.classList.contains('player')) {
+            return;
+        }
+
+        const rect = court.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        selectedPlayer.destination = { x, y };
+
+        // Create or update marker
+        if (!selectedPlayer.marker) {
+            const marker = document.createElement('div');
+            marker.classList.add('destination-marker');
+            court.appendChild(marker);
+            selectedPlayer.marker = marker;
+        }
+
+        selectedPlayer.marker.style.left = (x - 6) + 'px';
+        selectedPlayer.marker.style.top = (y - 6) + 'px';
+
+        // Update destination count
+        let count = 0;
+        players.forEach(p => {
+            if (p.destination) count++;
+        });
+        totalDestinations = count;
+        destinationCount.textContent = count + ' / ' + players.length;
+    });
+
+    // Animate all players to destinations
+    animateBtn.addEventListener('click', function() {
+        let hasDestinations = false;
+
+        players.forEach(player => {
+            if (player.destination) {
+                hasDestinations = true;
+                const boxWidth = player.offsetWidth;
+                const boxHeight = player.offsetHeight;
+
+                // Center the player on the destination point
+                const newLeft = player.destination.x - boxWidth / 2;
+                const newTop = player.destination.y - boxHeight / 2;
+
+                player.style.left = newLeft + 'px';
+                player.style.top = newTop + 'px';
+            }
+        });
+
+        if (!hasDestinations) {
+            alert('Please set at least one destination!');
+        }
+    });
+
+    // Rotate positions
+    rotateBtn.addEventListener('click', function() {
+        const rotationMap = {
+            1: 6,
+            6: 5,
+            5: 4,
+            4: 3,
+            3: 2,
+            2: 1
+        };
+
+        const courCenters = {
+            1: { top: 278, left: 395 },
+            2: { top: 78,  left: 395 },
+            3: { top: 78,  left: 228 },
+            4: { top: 78,  left: 61  },
+            5: { top: 278, left: 61  },
+            6: { top: 278, left: 228 }
+        };
+
+        players.forEach(player => {
+            const currentPos = parseInt(player.dataset.pos);
+            const newPos = rotationMap[currentPos];
+
+            player.dataset.pos = newPos;
+
+            player.style.top = courCenters[newPos].top + "px";
+            player.style.left = courCenters[newPos].left + "px";
+
+            // Update original position for reset
+            player.originalPosition = {
+                left: courCenters[newPos].left + "px",
+                top: courCenters[newPos].top + "px"
+            };
+        });
+
+        // Clear destinations and markers after rotation
+        players.forEach(player => {
+            player.destination = null;
+            if (player.marker) {
+                player.marker.remove();
+                player.marker = null;
+            }
+        });
+
+        totalDestinations = 0;
+        destinationCount.textContent = '0 / ' + players.length;
+    });
+
+    // Reset all players to original positions
+    resetBtn.addEventListener('click', function() {
+        players.forEach(player => {
+            player.style.left = player.originalPosition.left;
+            player.style.top = player.originalPosition.top;
+            player.destination = null;
+
+            if (player.marker) {
+                player.marker.remove();
+                player.marker = null;
+            }
+        });
+
+        if (selectedPlayer) {
+            selectedPlayer.classList.remove('selected');
+            selectedPlayer = null;
+            selectedInfo.textContent = 'None selected';
+        }
+
+        totalDestinations = 0;
+        destinationCount.textContent = '0 / ' + players.length;
+    });
+
+    // Clear all destination markers
+    clearDestinationsBtn.addEventListener('click', function() {
+        players.forEach(player => {
+            player.destination = null;
+            if (player.marker) {
+                player.marker.remove();
+                player.marker = null;
+            }
+        });
+
+        totalDestinations = 0;
+        destinationCount.textContent = '0 / ' + players.length;
+    });
+});

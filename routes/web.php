@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DefenceController;
 use App\Http\Controllers\AttackController;
+use App\Http\Controllers\MovingPlayerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,11 @@ Route::resource('defence', DefenceController::class);
 // Attack Rotations Routes
 Route::resource('attack', AttackController::class);
 
+// Moving Players Routes
+Route::resource('movingplayers', MovingPlayerController::class);
+
+// Animator view for a specific movement
+Route::get('/movingplayers/{id}/animate', [MovingPlayerController::class, 'animate'])->name('movingplayers.animate');
 
 Route::post('/defence-rotations', [DefenceController::class, 'store']);
 Route::patch('/defence-rotations/{id}', [DefenceController::class, 'update']);

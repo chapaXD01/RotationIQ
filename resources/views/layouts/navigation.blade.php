@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Start') }}
                     </x-nav-link>
                     @auth
                         <x-nav-link :href="route('attack.index')" :active="request()->routeIs('attack.*')">
@@ -21,6 +21,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('defence.index')" :active="request()->routeIs('defence.*')">
                             {{ __('Defence') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('movingplayers.index')" :active="request()->routeIs('movingplayers.*')">
+                            {{ __('Movements') }}
                         </x-nav-link>
                     @endauth
                 </div>
@@ -95,6 +98,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('defence.index')" :active="request()->routeIs('defence.*')">
                     {{ __('Defence') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('movingplayers.index')" :active="request()->routeIs('movingplayers.*')">
+                    {{ __('Movements') }}
                 </x-responsive-nav-link>
             @endauth
         </div>
