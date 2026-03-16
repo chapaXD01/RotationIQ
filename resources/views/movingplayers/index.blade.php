@@ -24,7 +24,7 @@
                 </div>
             @endif
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if ($movements->count())
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -50,7 +50,7 @@
                             @endforeach
                         </div>
                     @else
-                        <p class="text-center text-gray-500">{{ __('No movements found. Create one to get started!') }}</p>
+                        <p class="text-center text-white">{{ __('No movements found. Create one to get started!') }}</p>
                     @endif
                 </div>
             </div>

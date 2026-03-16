@@ -12,16 +12,16 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
                 <div class="p-6">
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
                         Edit Player Movement
                     </h1>
 
                     <div class="flex flex-col gap-8">
-                        <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
-                            <h2 class="font-semibold text-blue-900 dark:text-blue-100 mb-2">How to Use:</h2>
-                            <ul class="text-blue-800 dark:text-blue-200 text-sm space-y-1">
+                        <div class="rounded-lg p-4" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                            <h2 class="font-semibold text-white mb-2">How to Use:</h2>
+                            <ul class="text-white text-sm space-y-1">
                                 <li>1. <strong>Click a player</strong> to select them (highlighted with yellow outline)</li>
                                 <li>2. <strong>Click anywhere on the court</strong> to set their destination (marked with a black dot)</li>
                                 <li>3. Set destinations for multiple players</li>
@@ -59,44 +59,44 @@
                                 </div>
                             </div>
 
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 min-w-max">
-                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-4">Controls</h3>
+                            <div class="rounded-lg p-6" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                <h3 class="font-semibold text-white mb-4">Controls</h3>
                                 
                                 <div class="space-y-3">
-                                    <button id="animateBtn" class="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition">
+                                    <button id="animateBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Animate Movement
                                     </button>
                                     
-                                    <button id="rotateBtn" class="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition">
+                                    <button id="rotateBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.85) 0%, rgba(37, 99, 235, 0.85) 100%); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Rotate Position ⟳
                                     </button>
 
-                                    <button id="resetBtn" class="w-full px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition">
+                                    <button id="resetBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.8) 0%, rgba(59, 130, 246, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Reset All
                                     </button>
 
-                                    <button id="clearDestinationsBtn" class="w-full px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition">
+                                    <button id="clearDestinationsBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background-color: rgba(75, 85, 99, 0.6); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Clear Destinations
                                     </button>
                                 </div>
-                                <div class="mt-6 pt-6 border-t border-gray-300 dark:border-gray-600">
-                                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Selected Player:</p>
-                                    <div id="selectedInfo" class="text-sm text-gray-600 dark:text-gray-400">
+                                <div class="mt-6 pt-6 border-t border-gray-400">
+                                    <p class="text-sm font-semibold text-white mb-2">Selected Player:</p>
+                                    <div id="selectedInfo" class="text-sm text-gray-200">
                                         None selected
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Destinations Set:</p>
-                                    <div id="destinationCount" class="text-sm text-gray-600 dark:text-gray-400" style="font-size: 18px; font-weight: bold;">
+                                    <p class="text-sm font-semibold text-white mb-2">Destinations Set:</p>
+                                    <div id="destinationCount" class="text-sm text-gray-200" style="font-size: 18px; font-weight: bold;">
                                         0 / 6
                                     </div>
                                 </div>
 
-                                <div class="mt-6 pt-6 border-t border-gray-300 dark:border-gray-600">
-                                    <label for="movement-name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{{ __('Movement Name') }}</label>
-                                    <input type="text" id="movement-name" value="{{ $movement->name }}" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" style="color: #111827;">
+                                <div class="mt-6 pt-6 border-t border-gray-400">
+                                    <label for="movement-name" class="block text-sm font-semibold text-white mb-2">{{ __('Movement Name') }}</label>
+                                    <input type="text" id="movement-name" value="{{ $movement->name }}" class="w-full px-4 py-2 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition" style="background-color: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); color: white;">
                                     
-                                    <button onclick="updateMovement({{ $movement->id }})" class="w-full mt-3 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
+                                    <button onclick="updateMovement({{ $movement->id }})" class="w-full mt-3 px-6 py-3 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.9) 100%); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Update Movement
                                     </button>
                                 </div>

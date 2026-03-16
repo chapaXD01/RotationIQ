@@ -88,7 +88,7 @@ function checkRotationWithVisuals() {
 
     showErrors(errors);
 }
-
+// lines for positon error
 function drawHorizontalFaultLine(player, side) {
     const svg = document.getElementById("lines");
     const y = side === "front"
@@ -212,8 +212,6 @@ function saveRotation() {
         alert("Failed to save rotation");
     });
 }
-
-
 const zoneCenters = {
     1: { top: 278, left: 395 },
     2: { top: 78,  left: 395 },
@@ -222,7 +220,7 @@ const zoneCenters = {
     5: { top: 278, left: 61  },
     6: { top: 278, left: 228 }
 };
-// rotation
+// volleyball rotation 
 function rotateClockwise() {
 
     const rotationMap = {
@@ -233,7 +231,6 @@ function rotateClockwise() {
         3: 2,
         2: 1
     };
-
     const players = document.querySelectorAll('.player');
 
     players.forEach(player => {
@@ -260,7 +257,7 @@ function handleLiberoSub() {
         const pos = parseInt(player.dataset.pos);
         const role = player.dataset.role;
         
-
+        // parbauda vai role ir vienāds ar MB(midle blocker), un ja speletāja position ir vienāds ar 5 positon vai 6 vai 1, ja ta ir tad izmaina pre L(libero)
         if (role === 'MB' && (pos === 5 || pos === 6 || pos === 1)) {
             player.dataset.role = 'L';
             player.textContent = 'L';
@@ -316,12 +313,12 @@ function updateRotation(id)
     });
 }
 
-// ============================================
-// Moving Players Animator - runs when page loaded
-// ============================================
+
+// animated players (kur speletāji iet uz selected location)
+
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if we're on the moving players page
+    // chek if we are in animation page
     const animateBtn = document.getElementById('animateBtn');
     if (!animateBtn) return;
 
@@ -336,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedPlayer = null;
     let totalDestinations = 0;
 
-    // Initialize each player
+    
     players.forEach((player, index) => {
         player.destination = null;
         player.originalPosition = {
@@ -345,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         player.playerIndex = index;
 
-        // Player selection
+        // player selection
         player.addEventListener('click', function(event) {
             event.stopPropagation();
 
@@ -361,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Destination selection (click on court)
+    // destination selection 
     court.addEventListener('click', function(event) {
         if (!selectedPlayer) {
             alert('Please select a player first!');
@@ -378,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         selectedPlayer.destination = { x, y };
 
-        // Create or update marker
+        // create or update marker
         if (!selectedPlayer.marker) {
             const marker = document.createElement('div');
             marker.classList.add('destination-marker');
@@ -389,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedPlayer.marker.style.left = (x - 6) + 'px';
         selectedPlayer.marker.style.top = (y - 6) + 'px';
 
-        // Update destination count
+        // update destination count
         let count = 0;
         players.forEach(p => {
             if (p.destination) count++;
@@ -398,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
         destinationCount.textContent = count + ' / ' + players.length;
     });
 
-    // Animate all players to destinations
+    // animate all players to destinations
     animateBtn.addEventListener('click', function() {
         let hasDestinations = false;
 
@@ -408,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const boxWidth = player.offsetWidth;
                 const boxHeight = player.offsetHeight;
 
-                // Center the player on the destination point
+                // center the player on the destination point
                 const newLeft = player.destination.x - boxWidth / 2;
                 const newTop = player.destination.y - boxHeight / 2;
 
@@ -422,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Rotate positions
+    // rotate positions
     rotateBtn.addEventListener('click', function() {
         const rotationMap = {
             1: 6,
@@ -451,14 +448,14 @@ document.addEventListener('DOMContentLoaded', function() {
             player.style.top = courCenters[newPos].top + "px";
             player.style.left = courCenters[newPos].left + "px";
 
-            // Update original position for reset
+            // update original position for reset
             player.originalPosition = {
                 left: courCenters[newPos].left + "px",
                 top: courCenters[newPos].top + "px"
             };
         });
 
-        // Clear destinations and markers after rotation
+        // delete destinations and markers after rotation
         players.forEach(player => {
             player.destination = null;
             if (player.marker) {
@@ -471,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
         destinationCount.textContent = '0 / ' + players.length;
     });
 
-    // Reset all players to original positions
+    // reset all players to original positions
     resetBtn.addEventListener('click', function() {
         players.forEach(player => {
             player.style.left = player.originalPosition.left;
@@ -494,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
         destinationCount.textContent = '0 / ' + players.length;
     });
 
-    // Clear all destination markers
+    // delete all destination markers
     clearDestinationsBtn.addEventListener('click', function() {
         players.forEach(player => {
             player.destination = null;

@@ -1,28 +1,29 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="border-b border-blue-700 relative" style="background: linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%); backdrop-filter: blur(10px); z-index: 50;">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <span class="text-3xl">🏐</span>
+                        <span class="font-bold text-xl text-white">RotationIQ</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white hover:text-blue-100">
                         {{ __('Start') }}
                     </x-nav-link>
                     @auth
-                        <x-nav-link :href="route('attack.index')" :active="request()->routeIs('attack.*')">
+                        <x-nav-link :href="route('attack.index')" :active="request()->routeIs('attack.*')" class="text-white hover:text-blue-100">
                             {{ __('Attack') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('defence.index')" :active="request()->routeIs('defence.*')">
+                        <x-nav-link :href="route('defence.index')" :active="request()->routeIs('defence.*')" class="text-white hover:text-blue-100">
                             {{ __('Defence') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('movingplayers.index')" :active="request()->routeIs('movingplayers.*')">
+                        <x-nav-link :href="route('movingplayers.index')" :active="request()->routeIs('movingplayers.*')" class="text-white hover:text-blue-100">
                             {{ __('Movements') }}
                         </x-nav-link>
                     @endauth

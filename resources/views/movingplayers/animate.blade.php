@@ -12,7 +12,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
                 <div class="p-6">
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
                         Player Movement Animator
@@ -58,35 +58,35 @@
                                 </div>
                             </div>
 
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-6 min-w-max">
-                                <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-4">Controls</h3>
+                            <div class="rounded-lg p-6" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                                <h3 class="font-semibold text-white mb-4">Controls</h3>
                                 
                                 <div class="space-y-3">
-                                    <button id="animateBtn" class="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition">
+                                    <button id="animateBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Animate Movement
                                     </button>
                                     
-                                    <button id="rotateBtn" class="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition">
+                                    <button id="rotateBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.85) 0%, rgba(37, 99, 235, 0.85) 100%); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Rotate Position ⟳
                                     </button>
 
-                                    <button id="resetBtn" class="w-full px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition">
+                                    <button id="resetBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.8) 0%, rgba(59, 130, 246, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Reset All
                                     </button>
 
-                                    <button id="clearDestinationsBtn" class="w-full px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition">
+                                    <button id="clearDestinationsBtn" class="w-full px-6 py-3 text-white font-semibold rounded-lg transition" style="background-color: rgba(75, 85, 99, 0.6); border: 1px solid rgba(255, 255, 255, 0.3);">
                                         Clear Destinations
                                     </button>
                                 </div>
-                                <div class="mt-6 pt-6 border-t border-gray-300 dark:border-gray-600">
-                                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Selected Player:</p>
-                                    <div id="selectedInfo" class="text-sm text-gray-600 dark:text-gray-400">
+                                <div class="mt-6 pt-6 border-t border-gray-400">
+                                    <p class="text-sm font-semibold text-white mb-2">Selected Player:</p>
+                                    <div id="selectedInfo" class="text-sm text-gray-200">
                                         None selected
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Destinations Set:</p>
-                                    <div id="destinationCount" class="text-sm text-gray-600 dark:text-gray-400" style="font-size: 18px; font-weight: bold;">
+                                    <p class="text-sm font-semibold text-white mb-2">Destinations Set:</p>
+                                    <div id="destinationCount" class="text-sm text-gray-200" style="font-size: 18px; font-weight: bold;">
                                         0 / 6
                                     </div>
                                 </div>
