@@ -49,11 +49,16 @@ class DefenceController extends Controller
 
     public function update(Request $request, $id)
 {
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'players' => 'required|array|min:1'
+    ]);
+
     $rotation = DefenceRotation::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
     $rotation->update([
-        'name' => $request->name,
-        'players' => json_encode($request->players)
+        'name' => $validated['name'],
+        'players' => json_encode($validated['players'])
     ]);
 
     return response()->json(['success' => true]);
@@ -62,9 +67,14 @@ class DefenceController extends Controller
 
      public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'players' => 'required|array|min:1'
+        ]);
+
         DefenceRotation::create([
-            'name' => $request->name,
-            'players' => json_encode($request->players),
+            'name' => $validated['name'],
+            'players' => json_encode($validated['players']),
             'user_id' => auth()->id()
         ]);
 

@@ -48,11 +48,16 @@ class MovingPlayerController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'players' => 'required|array|min:1'
+        ]);
+
         $movement = MovingPlayer::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
         $movement->update([
-            'name' => $request->name,
-            'players' => json_encode($request->players)
+            'name' => $validated['name'],
+            'players' => json_encode($validated['players'])
         ]);
 
         return response()->json(['success' => true]);
@@ -60,9 +65,14 @@ class MovingPlayerController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'players' => 'required|array|min:1'
+        ]);
+
         MovingPlayer::create([
-            'name' => $request->name,
-            'players' => json_encode($request->players),
+            'name' => $validated['name'],
+            'players' => json_encode($validated['players']),
             'user_id' => auth()->id()
         ]);
 

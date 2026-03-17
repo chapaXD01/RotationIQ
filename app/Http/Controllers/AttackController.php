@@ -46,23 +46,33 @@ class AttackController extends Controller
         return view('attack.edit', compact('rotation'));
     }
 
-     public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'players' => 'required|array|min:1'
+        ]);
+
         $rotation = AttackRotation::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
         $rotation->update([
-            'name' => $request->name,
-            'players' => json_encode($request->players)
+            'name' => $validated['name'],
+            'players' => json_encode($validated['players'])
         ]);
 
         return response()->json(['success' => true]);
     }
 
-     public function store(Request $request)
+    public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'players' => 'required|array|min:1'
+        ]);
+
         AttackRotation::create([
-            'name' => $request->name,
-            'players' => json_encode($request->players),
+            'name' => $validated['name'],
+            'players' => json_encode($validated['players']),
             'user_id' => auth()->id()
         ]);
 
