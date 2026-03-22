@@ -1,17 +1,39 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Edit Defence Rotation: ') }} {{ $rotation->name }}
-            </h2>
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-yellow-500/20 border border-yellow-500/30">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs text-white uppercase tracking-widest font-semibold">Editing</p>
+                    <h2 class="font-bold text-xl text-white tracking-tight leading-tight">
+                        {{ $rotation->name }}
+                    </h2>
+                </div>
+            </div>
         </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <p class="text-xs font-semibold uppercase tracking-widest text-yellow-400/70 mb-4 px-1">
+                ✏️ Modify &amp; Update
+            </p>
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-                    <div class="p-6 flex justify-center">
+
+                {{-- Court panel --}}
+                <div class="lg:col-span-2 rounded-2xl overflow-hidden shadow-xl border border-white/10 bg-white/5 backdrop-blur-md">
+                    <div class="px-5 py-4 border-b border-white/10 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-orange-400 inline-block"></span>
+                        <span class="text-sm font-semibold text-white tracking-wide">Court View</span>
+                        <span class="ml-auto text-xs text-white">Drag players to reposition</span>
+                    </div>
+                    <div class="p-6 flex justify-center items-center min-h-[440px]">
                         <link rel="stylesheet" href="{{ asset('style.css') }}">
                         <div id="court" style="margin: 0; padding: 0;">
                             <div class="zones">
@@ -22,54 +44,81 @@
                                 <div class="zone">6</div>
                                 <div class="zone">1</div>
                             </div>
-
                             <svg id="lines" width="500" height="400"
-                                 style="position:absolute; top:0; left:0; pointer-events:none;">
-                            </svg>
+                                 style="position:absolute; top:0; left:0; pointer-events:none;"></svg>
 
-                            @php
-                                $players = json_decode($rotation->players, true);
-                            @endphp
-
+                            @php $players = json_decode($rotation->players, true); @endphp
                             @foreach ($players as $player)
                                 <div class="player"
                                      data-pos="{{ $player['pos'] }}"
                                      data-role="{{ $player['role'] }}"
-                                     style="top: {{ $player['top'] }}px;
-                                            left: {{ $player['left'] }}px">
+                                     style="top: {{ $player['top'] }}px; left: {{ $player['left'] }}px">
                                     {{ $player['role'] }}
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-                    <div class="p-6 text-white">
-                        <h3 class="font-semibold text-lg mb-4">{{ __('Update Rotation') }}</h3>
-                        <div class="mb-6">
-                            <label for="rotation-name" class="block text-sm font-medium mb-2 text-white">{{ __('Rotation Name') }}</label>
-                            <input type="text"
-                                   id="rotation-name"
-                                   value="{{ $rotation->name }}"
-                                   class="w-full px-4 py-2 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-300 transition" style="background-color: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.2);">
+
+                {{-- Settings panel --}}
+                <div class="rounded-2xl overflow-hidden shadow-xl border border-white/10 bg-white/5 backdrop-blur-md flex flex-col">
+                    <div class="px-5 py-4 border-b border-white/10 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 inline-block"></span>
+                        <span class="text-sm font-semibold text-white tracking-wide">Update Rotation</span>
+                    </div>
+
+                    <div class="p-6 flex flex-col gap-5 flex-1">
+
+                        <div>
+                            <label for="rotation-name" class="block text-xs font-semibold uppercase tracking-widest text-green-300/80 mb-2">
+                                {{ __('Rotation Name') }}
+                            </label>
+                            <input
+                                type="text"
+                                id="rotation-name"
+                                value="{{ $rotation->name }}"
+                                class="w-full px-4 py-2.5 rounded-xl text-white text-sm bg-white/5 border border-white/10 focus:outline-none focus:ring-2 focus:ring-green-500/60 focus:border-green-500/40 transition"
+                            >
                         </div>
-                        <div class="space-y-2">
-                            <button onclick="checkRotationWithVisuals()" class="w-full px-4 py-2 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.8) 0%, rgba(59, 130, 246, 0.8) 100%); border: 1px solid rgba(255, 255, 255, 0.3); hover:opacity: 0.9;">
+
+                        <div class="border-t border-white/10"></div>
+
+                        <div class="flex flex-col gap-3">
+                            <button
+                                onclick="checkRotationWithVisuals()"
+                                class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-slate-700/60 hover:bg-slate-700 border border-white/10 hover:border-white/20 transition"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
                                 {{ __('Check Rotation') }}
                             </button>
-                            <button onclick="updateRotation({{ $rotation->id }})" class="w-full px-4 py-2 text-white font-semibold rounded-lg transition" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.9) 100%); border: 1px solid rgba(255, 255, 255, 0.3); hover:opacity: 0.9;">
+
+                            <button
+                                onclick="updateRotation({{ $rotation->id }})"
+                                class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-yellow-600 hover:bg-yellow-500 border border-yellow-400/40 shadow-lg shadow-yellow-900/20 transition"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                                </svg>
                                 {{ __('Update Rotation') }}
                             </button>
-                            <a href="{{ route('defence.index') }}" class="block text-center px-4 py-2 text-white font-semibold rounded-lg transition" style="background-color: rgba(75, 85, 99, 0.6); border: 1px solid rgba(255, 255, 255, 0.3);">
+
+                            <a
+                                href="{{ route('defence.index') }}"
+                                class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition"
+                            >
                                 {{ __('Cancel') }}
                             </a>
                         </div>
 
-                        <div id="errors" class="mt-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hidden">
-                            <ul id="error-list" class="list-disc list-inside"></ul>
+                        <div id="errors" class="mt-2 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-sm hidden">
+                            <p class="font-semibold mb-1 text-red-400">Please fix the following:</p>
+                            <ul id="error-list" class="list-disc list-inside space-y-1"></ul>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

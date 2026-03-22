@@ -4,7 +4,6 @@
             {{ __('Welcome to RotationIQ') }}
         </h2>
     </x-slot>
-
     <div class="py-12 ">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8">
                 <div style="background-color: rgba(59, 130, 246, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); overflow-hidden; border-radius: 0.5rem;">
