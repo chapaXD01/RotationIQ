@@ -143,6 +143,6 @@
         </div>
     </div>
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">s
     <script src="{{ asset('script.js') }}"></script>
 </x-app-layout>
