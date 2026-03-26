@@ -81,6 +81,8 @@
                             >
                         </div>
 
+                        <input type="hidden" id="rotationType" value="defence">
+
                         <div class="border-t border-white/10"></div>
 
                         <div class="flex flex-col gap-3">

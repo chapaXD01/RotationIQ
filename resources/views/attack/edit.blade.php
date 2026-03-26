@@ -82,6 +82,8 @@
                             >
                         </div>
 
+                        <input type="hidden" id="rotationType" value="attack">
+
                         {{-- Divider --}}
                         <div class="border-t border-white/10"></div>
 

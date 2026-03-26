@@ -212,6 +212,7 @@ function saveRotation() {
         alert("Failed to save rotation");
     });
 }
+// seit ir hardcoded jo šis ir priekš velejbola laukuma pozīcijām kad meģinaju citus veidus viss tika sačakarēts ar laukuma pozīcijām
 const zoneCenters = {
     1: { top: 278, left: 395 },
     2: { top: 78,  left: 395 },
@@ -270,46 +271,46 @@ function handleLiberoSub() {
     });
 }
 
-// update rotation 
-function updateRotation(id)
-{
+// update rotation
+function updateRotation(id) {
     const name = document.getElementById('rotation-name').value;
+    const type = document.getElementById('rotationType').value;
 
     const players = [];
 
     document.querySelectorAll('.player').forEach(player => {
-
         players.push({
             role: player.dataset.role,
             pos: player.dataset.pos,
             top: parseFloat(player.style.top),
             left: parseFloat(player.style.left)
         });
-
     });
 
-    fetch(`/attack/${id}`, {
+    const url = type === "attack"
+        ? `/attack/${id}`
+        : `/defence/${id}`;
 
+    fetch(url, {
         method: 'PATCH',
-
         headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
         },
-
         body: JSON.stringify({
             name: name,
             players: players
         })
-
     })
     .then(res => res.json())
     .then(() => {
-
         alert('Rotation updated');
 
-        window.location.href = '/attack';
-
+        if (type === "attack") {
+            window.location.href = '/attack';
+        } else {
+            window.location.href = '/defence';
+        }
     });
 }
 
